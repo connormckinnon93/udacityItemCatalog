@@ -33,7 +33,11 @@ def showCatalog():
 @app.route('/catalog/<int:category_id>')
 @app.route('/catalog/<int:category_id>/items')
 def showCategory(category_id):
-	return render_template('category.html')
+	categories = session.query(Category).order_by(asc(Category.name))
+	open_category = session.query(Category).filter_by(id = category_id).one()
+	items = session.query(Item).filter_by(category_id = category_id).all()
+	item_count = session.query(Item).filter_by(category_id = category_id).count()
+	return render_template('category.html', categories = categories, open_category = open_category, items = items, item_count = item_count)
 
 # Display a specific item
 @app.route('/catalog/<int:category_id>/<int:item_id>')
