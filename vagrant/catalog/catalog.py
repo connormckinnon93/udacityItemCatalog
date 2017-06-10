@@ -48,17 +48,21 @@ def showItem(category_id, item_id):
 # Create new item
 @app.route('/catalog/item/create')
 def createItem():
-	return render_template('newItem.html')
+	categories = session.query(Category).order_by(asc(Category.name))
+	return render_template('createItem.html', categories = categories)
 
 # Update a item
 @app.route('/catalog/<int:category_id>/<int:item_id>/update')
 def updateItem(category_id, item_id):
-	return render_template('editItem.html')
+	categories = session.query(Category).order_by(asc(Category.name))
+	item = session.query(Item).filter_by(id = item_id).one()
+	return render_template('editItem.html', categories = categories, item = item)
 
 # Delete an item
 @app.route('/catalog/<int:category_id>/<int:item_id>/delete')
 def deleteItem(category_id, item_id):
-	return render_template('deleteItem.html')
+	item = session.query(Item).filter_by(id = item_id).one()
+	return render_template('deleteItem.html', item = item)
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
