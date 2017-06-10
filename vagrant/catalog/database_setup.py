@@ -20,7 +20,6 @@ class Category(Base):
 
     id = Column(Integer, primary_key = True)
     name = Column(String(250), nullable=False)
-    description = Column(String(250), nullable=False)
 
     @property
     def serialize(self):
