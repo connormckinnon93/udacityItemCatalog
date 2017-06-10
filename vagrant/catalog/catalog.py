@@ -1,6 +1,6 @@
 # Imports as recommended by Lesson 4 Part 2 in the UD330 (https://github.com/udacity/ud330/tree/master/Lesson4/step2)
 from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
-from sqlalchemy import create_engine, asc
+from sqlalchemy import create_engine, asc, desc
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, User, Category, Item
 from flask import session as login_session
@@ -25,8 +25,8 @@ session = DBSession()
 @app.route('/')
 @app.route('/catalog/')
 def showCatalog():
-	categories = session.query(Category).all()
-	items = session.query(Item).all()
+	categories = session.query(Category).order_by(asc(Category.name))
+	items = session.query(Item).order_by(desc(Item.id)).limit(5)
 	return render_template('catalog.html', categories = categories, items = items)
 
 # Display a specific category
@@ -41,8 +41,8 @@ def showItem(category_id, item_id):
 	return render_template('item.html')
 
 # Create new item
-@app.route('/catalog/<int:category_id>/<int:item_id>/create')
-def createItem(category_id, item_id):
+@app.route('/catalog/item/create')
+def createItem():
 	return render_template('newItem.html')
 
 # Update a item
