@@ -1,5 +1,19 @@
 {% extends "main.html" %}
 {% block content %}
-	<h1>Item</h1>
-	<p>Selecting a specific item shows you specific information of that item.</p>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">{{ item.name }}</h3>
+				</div>
+				<div class="panel-body">
+					<p>{{ item.description }}</p>
+					<p>
+						<a href="{{ url_for('updateItem', category_id = item.category_id, item_id = item.id) }}">Edit</a> | 
+						<a href="{{ url_for('deleteItem', category_id = item.category_id, item_id = item.id) }}">Edit</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
