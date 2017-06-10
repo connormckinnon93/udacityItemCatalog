@@ -67,11 +67,13 @@ def updateItem(category_id, item_id):
 # Delete an item
 @app.route('/catalog/<int:category_id>/<int:item_id>/delete', methods = ['GET', 'POST'])
 def deleteItem(category_id, item_id):
+	itemToDelete = session.query(Item).filter_by(id=item_id).one()
 	if request.method == 'POST':
-		return False
+		session.delete(itemToDelete)
+		session.commit()
+		return redirect(url_for('showCatalog'))
 	else:
-		item = session.query(Item).filter_by(id = item_id).one()
-		return render_template('deleteItem.html', item = item)
+		return render_template('deleteItem.html', item = itemToDelete)
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
