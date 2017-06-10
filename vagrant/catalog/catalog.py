@@ -46,10 +46,16 @@ def showItem(category_id, item_id):
 	return render_template('item.html', item = item)
 
 # Create new item
-@app.route('/catalog/item/create')
+@app.route('/catalog/item/create', methods = ['GET', 'POST'])
 def createItem():
-	categories = session.query(Category).order_by(asc(Category.name))
-	return render_template('createItem.html', categories = categories)
+	if request.method == 'POST':
+		newItem = Item(name = request.form['name'], description = request.form['description'], category_id = request.form['category'], user_id = 1)
+		session.add(newItem)
+		session.commit()
+		return redirect(url_for('showCatalog'))
+	else:
+		categories = session.query(Category).order_by(asc(Category.name))
+		return render_template('createItem.html', categories = categories)
 
 # Update a item
 @app.route('/catalog/<int:category_id>/<int:item_id>/update')
@@ -59,10 +65,13 @@ def updateItem(category_id, item_id):
 	return render_template('editItem.html', categories = categories, item = item)
 
 # Delete an item
-@app.route('/catalog/<int:category_id>/<int:item_id>/delete')
+@app.route('/catalog/<int:category_id>/<int:item_id>/delete', methods = ['GET', 'POST'])
 def deleteItem(category_id, item_id):
-	item = session.query(Item).filter_by(id = item_id).one()
-	return render_template('deleteItem.html', item = item)
+	if request.method == 'POST':
+		return False
+	else:
+		item = session.query(Item).filter_by(id = item_id).one()
+		return render_template('deleteItem.html', item = item)
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
