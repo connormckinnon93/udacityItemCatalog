@@ -58,11 +58,19 @@ def createItem():
 		return render_template('createItem.html', categories = categories)
 
 # Update a item
-@app.route('/catalog/<int:category_id>/<int:item_id>/update')
+@app.route('/catalog/<int:category_id>/<int:item_id>/update', methods = ['GET', 'POST'])
 def updateItem(category_id, item_id):
-	categories = session.query(Category).order_by(asc(Category.name))
-	item = session.query(Item).filter_by(id = item_id).one()
-	return render_template('editItem.html', categories = categories, item = item)
+	itemToEdit = session.query(Item).filter_by(id = item_id).one()
+	if request.method == 'POST':
+		itemToEdit.name = request.form['name']
+		itemToEdit.description = request.form['description']
+		itemToEdit.category_id = request.form['category']
+		session.add(itemToEdit)
+		session.commit()
+		return redirect(url_for('showCatalog'))
+	else:
+		categories = session.query(Category).order_by(asc(Category.name))
+		return render_template('editItem.html', categories = categories, item = itemToEdit)
 
 # Delete an item
 @app.route('/catalog/<int:category_id>/<int:item_id>/delete', methods = ['GET', 'POST'])
