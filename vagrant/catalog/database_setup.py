@@ -11,7 +11,6 @@ class User(Base):
     __tablename__ = 'user'
    
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     picture = Column(String(250))
  
@@ -42,18 +41,18 @@ class Item(Base):
 
 	@property
 	def return_cat_name(self):
-		return self.category.return_cat_name
+		return self.category.name
 
 	@property
 	def return_user_name(self):
-		return self.user.return_user_name
+		return self.user.email
 
 	@property
 	def serialize(self):
 		"""Return object data in easily serializeable format"""
 		return {
         	'id': self.id,
-            'name': self.name,
+            'item': self.name,
             'description': self.description,
             'category': self.return_cat_name,
             'user': self.return_user_name

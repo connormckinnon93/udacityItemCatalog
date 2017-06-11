@@ -16,7 +16,11 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <div class="nav navbar-nav navbar-right">
-                <a href="#" class="btn btn-default navbar-btn">Sign in</a>
+                {%if 'username' not in session %}
+                    <a href="{{url_for('showLogin')}}" class="btn btn-default navbar-btn">Login</a>
+                {% else %}
+                    <a href="{{url_for('disconnect')}}" class="btn btn-default navbar-btn">Logout</a>
+                {% endif %}
             </div>
         </div>
         <!-- /.navbar-collapse -->

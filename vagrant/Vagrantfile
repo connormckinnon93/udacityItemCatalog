@@ -10,6 +10,7 @@ Vagrant.configure("2") do |config|
   # Work around disconnected virtual network cable.
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+    vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
 
   config.vm.provision "shell", inline: <<-SHELL
@@ -43,5 +44,9 @@ Vagrant.configure("2") do |config|
     make install
 
     echo "Done installing your virtual machine!"
+
+    sudo -H pip install requests
+
+    echo "Updating modules to include apache requests module"
   SHELL
 end
