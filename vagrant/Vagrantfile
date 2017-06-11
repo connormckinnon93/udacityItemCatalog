@@ -48,5 +48,12 @@ Vagrant.configure("2") do |config|
     sudo -H pip install requests
 
     echo "Updating modules to include apache requests module"
+
+    cd /vagrant/catalog
+    rm -rf itemcatalog.db
+    python database_setup.py
+    python populate_db.py
+
+    echo "Setup the sqlite database"
   SHELL
 end

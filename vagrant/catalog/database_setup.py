@@ -1,3 +1,4 @@
+# Based off UD330
 import os
 import sys
 from sqlalchemy import Column, ForeignKey, Integer, String
@@ -10,6 +11,7 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = 'user'
    
+    # Don't save name since email will be our primary information retrieved
     id = Column(Integer, primary_key=True)
     email = Column(String(250), nullable=False)
     picture = Column(String(250))
@@ -39,10 +41,12 @@ class Item(Base):
 	category_id = Column(Integer, ForeignKey('category.id'))
 	category = relationship(Category)
 
+    # The name of the items category
 	@property
 	def return_cat_name(self):
 		return self.category.name
 
+    # The email of the user who created the item
 	@property
 	def return_user_name(self):
 		return self.user.email
