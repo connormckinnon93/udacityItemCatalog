@@ -40,9 +40,9 @@ class Item(Base):
     name = Column(String(250), nullable=False)
     description = Column(String(250), nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'))
-    user = relationship(User)
+    user = relationship("User", cascade="delete")
     category_id = Column(Integer, ForeignKey('category.id'))
-    category = relationship(Category)
+    category = relationship("Category", cascade="delete")
 
     # The name of the items category
     @property
