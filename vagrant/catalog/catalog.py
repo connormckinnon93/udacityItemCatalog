@@ -66,7 +66,10 @@ def showItem(category_id, item_id):
 	# Return just the searched for item
 	item = session.query(Item).filter_by(id = item_id).one()
 	# Return a view of the searched for item
-	return render_template('item.html', item = item)
+	if 'username' not in login_session:
+		return render_template('publicItem.html', item = item)
+	else:
+		return render_template('item.html', item = item)
 
 # Create new item
 @app.route('/catalog/item/create', methods = ['GET', 'POST'])
