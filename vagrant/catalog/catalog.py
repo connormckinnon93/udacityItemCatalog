@@ -24,7 +24,7 @@ CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())[
 APPLICATION_NAME = "Restaurant Menu Application"
 
 # Connect to Database
-engine = create_engine('sqlite:///itemcatalog.db')
+engine = create_engine('postgresql://grader:grader@localhost/catalog')
 Base.metadata.bind = engine
 
 # Create Database session
